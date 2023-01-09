@@ -12,5 +12,7 @@ module.exports = {
     ecmaVersion: "latest",
   },
   plugins: ["vue"],
-  rules: {},
+  rules: {
+    "no-unused-vars":"off"
+  },
 };
