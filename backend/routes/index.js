@@ -1,8 +1,12 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
+const passport = require("../config/passport");
 
-router.get("/", (req, res) => {
-    res.send("Hello, World!")
-})
+const userController = require("../controllers/user-controller");
 
-module.exports = router
+const { apiErrorHandler } = require("../middleware/error-handler");
+
+router.post("/api/signup", userController.signUp);
+router.use("/", apiErrorHandler);
+
+module.exports = router;
