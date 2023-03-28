@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import store from "./../store";
 import NotFound from "../views/NotFound";
 import SignIn from "../views/SignIn";
 
@@ -28,6 +29,25 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  const tokenInLocalStorage = localStorage.getItem("token");
+  const tokenInStore = store.state.token;
+  let isAuthenticated = store.state.isAuthenticated;
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
+    isAuthenticated = await store.dispatch("fetchCurrentUser");
+  }
+  const pathsWithoutAuthentication = ["sign-up", "sign-in"];
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next("/signin");
+    return;
+  }
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next("/clocking");
+    return;
+  }
+  next();
 });
 
 export default router;

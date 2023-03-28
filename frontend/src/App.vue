@@ -1,26 +1,20 @@
 <template>
-  <router-view />
+  <div id="attendance-management-platform-api">
+    <AppNavbar />
+    <main role="main">
+      <router-view />
+    </main>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-nav {
-  padding: 30px;
-}
+<script>
+import AppNavbar from "./components/AppNavbar";
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+/* eslint-disable */
+export default {
+  name: "attendance-management-platform-api",
+  components: {
+    AppNavbar,
+  },
+};
+</script>
