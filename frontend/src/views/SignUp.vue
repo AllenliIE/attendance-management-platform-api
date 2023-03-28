@@ -106,10 +106,7 @@
           required
         />
       </div>
-      <div
-        class="d-flex justify-content-center p-0"
-        style="margin-top: 50px"
-      >
+      <div class="d-flex justify-content-center p-0" style="margin-top: 50px">
         <button
           class="btn btn-lg btn-primary btn-block"
           type="submit"
@@ -131,10 +128,7 @@
         </p>
       </div>
 
-      <p
-        class="mt-5 mb-3 text-muted text-center"
-        style="font-size: 16px"
-      >
+      <p class="mt-5 mb-3 text-muted text-center" style="font-size: 16px">
         &copy; 2022-2023
       </p>
     </form>
@@ -143,6 +137,9 @@
 
 <script>
 import { ref } from "vue";
+import { Toast } from "./../utils/helpers";
+import { useRouter } from "vue-router";
+import authorizationAPI from "./../apis/authorization";
 
 export default {
   setup() {
@@ -151,17 +148,58 @@ export default {
     const account = ref("");
     const password = ref("");
     const passwordCheck = ref("");
+    const router = useRouter();
 
-    function handleSubmit() {
-      const data = JSON.stringify({
-        name: this.name,
-        email: this.email,
-        account: this.account,
-        password: this.password,
-        passwordCheck: this.passwordCheck,
-      });
-      console.log("data", data);
+    async function handleSubmit() {
+      try {
+        if (
+          !this.name ||
+          !this.email ||
+          !this.account ||
+          !this.password ||
+          !this.passwordCheck
+        ) {
+          Toast.fire({
+            icon: "warning",
+            title: "請確認完成填寫所有的欄位！",
+          });
+          return;
+        }
+        if (this.password !== this.passwordCheck) {
+          Toast.fire({
+            icon: "warning",
+            title: "兩次輸入的密碼不相同！",
+          });
+          this.passwordCheck = "";
+          return;
+        }
+        const { data } = await authorizationAPI.signUp({
+          name: this.name,
+          email: this.email,
+          account: this.account,
+          password: this.password,
+          passwordCheck: this.passwordCheck,
+        });
+
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+
+        Toast.fire({
+          icon: "success",
+          title: data.message,
+        });
+
+        //back to signIn page.
+        router.push("/signin");
+      } catch (error) {
+        Toast.fire({
+          icon: "warning",
+          title: `無法註冊 - ${error.message}`,
+        });
+      }
     }
+
     return { name, email, account, password, passwordCheck, handleSubmit };
   },
 };
