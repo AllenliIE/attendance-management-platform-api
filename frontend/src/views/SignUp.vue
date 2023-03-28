@@ -54,7 +54,7 @@
         class="form-label-group m-auto text-muted text-start mb-2"
         style="width: 400px; font-size: 24px"
       >
-        <label for="email">
+        <label for="account">
           <strong> Account </strong>
         </label>
         <input

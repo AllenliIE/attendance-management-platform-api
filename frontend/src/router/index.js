@@ -4,6 +4,11 @@ import SignIn from "../views/SignIn";
 
 const routes = [
   {
+    path: "/",
+    name: "root",
+    component: "/signin",
+  },
+  {
     path: "/signin",
     name: "sign-in",
     component: SignIn,
@@ -13,11 +18,6 @@ const routes = [
     name: "sign-up",
     component: () => import("../views/SignUp.vue"),
   },
-  // {
-  //   path: "/",
-  //   name: "Home",
-  //   component: HomePage,
-  // },
   {
     path: "/:pathMatch(.*)*",
     name: "not-found",

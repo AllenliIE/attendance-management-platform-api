@@ -81,20 +81,54 @@
 
 <script>
 import { ref } from "vue";
+import { Toast } from "./../utils/helpers";
+import { useRouter } from "vue-router";
+import authorizationAPI from "./../apis/authorization";
 
 export default {
   setup() {
     const account = ref("");
     const password = ref("");
+    const isProcessing = ref(false);
+    const router = useRouter();
 
-    function handleSubmit() {
-      const data = JSON.stringify({
-        account: this.email,
-        password: this.password,
-      });
-      console.log("data", data);
+    async function handleSubmit() {
+      if (!this.account || !this.password) {
+        Toast.fire({
+          icon: "warning",
+          title: "請輸入帳號密碼！",
+        });
+        return;
+      }
+      this.isProcessing = true;
+
+      try {
+        const response = await authorizationAPI.signIn({
+          account: this.account,
+          password: this.password,
+        });
+        const { data } = response;
+        if (data.status === "error") {
+          throw new Error(data.message);
+        }
+        localStorage.setItem("token", data.token);
+        router.push("/clocking");
+        Toast.fire({
+          icon:"success",
+          title:"登入成功！"
+        })
+      } catch (error) {
+        this.password = "";
+        this.isProcessing = false;
+
+        Toast.fire({
+          icon: "warning",
+          title: "請確認您輸入了正確的帳號密碼！",
+        });
+        console.log("error", error);
+      }
     }
-    return { account, password, handleSubmit };
+    return { account, password, handleSubmit, isProcessing };
   },
 };
 </script>
