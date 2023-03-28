@@ -1,7 +1,50 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 
 const userController = {
+  signIn: async (req, res, next) => {
+    try {
+      const { account, password } = req.body;
+      const user = await User.findOne({ where: { account } });
+
+      if (!account || !password)
+        return res.json({ status: "error", message: "請確實填寫欄位！" });
+      if (!user)
+        return res
+          .status(401)
+          .json({ status: "error", message: "該帳號不存在！" });
+      if (!bcrypt.compareSync(password, user.password)) {
+        return res
+          .status(401)
+          .json({ status: "error", message: "請輸入正確的帳號密碼！" });
+      }
+      if (user.wrongTimes >= 5 || user.isLocked) {
+        return res.status(401).json({
+          status: "error",
+          message: "此帳戶已鎖定，請與管理員尋求協助！",
+        });
+      } else {
+        const payload = { id: user.id };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {
+          expiresIn: "30d",
+        });
+        return res.json({
+          status: "success",
+          message: "登入成功！",
+          token,
+          data: {
+            id: user.id,
+            name: user.name,
+            account: user.account,
+            role: user.role,
+          },
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  },
   signUp: async (req, res, next) => {
     const { name, email, account, password, passwordCheck } = req.body;
     const emailRule =
