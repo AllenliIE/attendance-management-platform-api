@@ -96,5 +96,15 @@ const userController = {
       })
       .catch((err) => next(err));
   },
+  getCurrentUser: (req, res) => {
+    const { id, name, email, account, role } = req.user;
+    return res.json({
+      id,
+      name,
+      email,
+      account,
+      role,
+    });
+  },
 };
 module.exports = userController;
