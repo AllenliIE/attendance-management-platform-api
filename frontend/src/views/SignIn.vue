@@ -83,6 +83,7 @@
 import { ref } from "vue";
 import { Toast } from "./../utils/helpers";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import authorizationAPI from "./../apis/authorization";
 
 export default {
@@ -91,6 +92,7 @@ export default {
     const password = ref("");
     const isProcessing = ref(false);
     const router = useRouter();
+    const store = useStore();
 
     async function handleSubmit() {
       if (!this.account || !this.password) {
@@ -113,10 +115,11 @@ export default {
         }
         localStorage.setItem("token", data.token);
         router.push("/clocking");
+        store.commit("setCurrentUser", data.user);
         Toast.fire({
-          icon:"success",
-          title:"登入成功！"
-        })
+          icon: "success",
+          title: "登入成功！",
+        });
       } catch (error) {
         this.password = "";
         this.isProcessing = false;

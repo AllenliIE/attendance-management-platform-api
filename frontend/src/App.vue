@@ -1,7 +1,7 @@
 <template>
-  <div id="attendance-management-platform-api">
+  <div id="attendance-management-platform-api" class="h-100">
     <AppNavbar />
-    <main role="main">
+    <main role="main" class="h-100">
       <router-view />
     </main>
   </div>
