@@ -11,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "root",
-    component: "/signin",
+    component: ClockPage,
   },
   {
     path: "/signin",
