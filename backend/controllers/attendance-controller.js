@@ -38,5 +38,49 @@ const attendanceController = {
       next(err);
     }
   },
+  updateAttendance: async (req, res, next) => {
+    const { date, clockOut } = req.body;
+    if (!date || !clockOut)
+      return res.json({ status: "error", message: "下班時間不存在！" });
+
+    try {
+      const now = new Date();
+      const inputDate = new Date(date);
+      if (
+        inputDate.getFullYear() !== now.getFullYear() ||
+        inputDate.getMonth() !== now.getMonth() ||
+        inputDate.getDate() !== now.getDate()
+      ) {
+        return res.json({ status: "error", message: "下班日期不正確！" });
+      }
+      const data = await Attendance.findOne({
+        where: { date: date, UserId: req.body.UserId },
+      });
+      if (!data)
+        return res.json({ status: "error", message: "今天還未打卡上班！" });
+
+      if (data.clockOut)
+        return res.json({ status: "error", message: "今天已經打卡下班了！" });
+
+      const clockIn = new Date(data.clockIn);
+      const elapsedTime = Math.floor((now - clockIn) / 1000 / 60);
+      await Attendance.update(
+        {
+          clockOut: clockOut,
+          elapsedTime: elapsedTime,
+          absent: false,
+        },
+        {
+          where: { date: date, UserId: req.body.UserId },
+        }
+      );
+      return res.json({
+        status: "success",
+        message: "打卡下班成功！",
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 module.exports = attendanceController;

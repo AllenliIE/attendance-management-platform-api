@@ -25,6 +25,12 @@ router.post(
   attendanceController.postAttendance
 );
 
+router.put(
+  "/api/attendance/:id",
+  authenticated,
+  attendanceController.updateAttendance
+);
+
 router.post("/api/signin", userController.signIn);
 router.post("/api/signup", userController.signUp);
 router.use("/", apiErrorHandler);
