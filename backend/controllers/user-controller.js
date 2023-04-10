@@ -97,7 +97,7 @@ const userController = {
       .catch((err) => next(err));
   },
   getCurrentUser: (req, res) => {
-    const { id, name, email, account, role } = req.user;
+    const { id, name, email, account, password, role } = req.user;
     return res.json({
       id,
       name,
