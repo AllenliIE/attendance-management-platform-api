@@ -1,5 +1,5 @@
-import { createStore } from 'vuex';
-import usersAPI from '../apis/users.js';
+import { createStore } from "vuex";
+import usersAPI from "../apis/users.js";
 
 export default createStore({
   state: {
@@ -17,7 +17,9 @@ export default createStore({
     clockOutTime: "",
     clockedIn: false,
   },
-  getters: {},
+  getters: {
+    userId: (state) => state.currentUser.id,
+  },
   mutations: {
     setCurrentUser(state, currentUser) {
       state.currentUser = {
