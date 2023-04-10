@@ -3,6 +3,7 @@ const router = express.Router();
 const passport = require("../config/passport");
 
 const userController = require("../controllers/user-controller");
+const attendanceController = require("../controllers/attendance-controller");
 
 const { apiErrorHandler } = require("../middleware/error-handler");
 const { authenticated, authenticatedAdmin } = require("../middleware/api-auth");
@@ -16,6 +17,12 @@ router.put(
   "/api/clocking/user/:id/edit",
   authenticated,
   userController.putProfile
+);
+
+router.post(
+  "/api/attendance",
+  authenticated,
+  attendanceController.postAttendance
 );
 
 router.post("/api/signin", userController.signIn);
