@@ -103,8 +103,33 @@ const userController = {
       name,
       email,
       account,
+      password,
       role,
     });
+  },
+  putProfile: async (req, res, next) => {
+    const { name, email, account, password, passwordCheck } = req.body;
+    if (Number(req.params.id) !== Number(req.user.id))
+      return res.status(401).json({ status: "error", message: "存取錯誤！" });
+
+    try {
+      const user = await User.findByPk(req.params.id);
+      const hash = await bcrypt.hash(password, 10);
+      if (password !== passwordCheck)
+        return res
+          .status(401)
+          .json({ status: "error", message: "請重複輸入正確的密碼！" });
+
+      await user.update({
+        name,
+        email,
+        account,
+        password: hash,
+      });
+      return res.json({ status: "success", message: "個人資料變更成功！" });
+    } catch (err) {
+      next(err);
+    }
   },
 };
 module.exports = userController;

@@ -12,6 +12,11 @@ router.get(
   authenticated,
   userController.getCurrentUser
 );
+router.put(
+  "/api/clocking/user/:id/edit",
+  authenticated,
+  userController.putProfile
+);
 
 router.post("/api/signin", userController.signIn);
 router.post("/api/signup", userController.signUp);
