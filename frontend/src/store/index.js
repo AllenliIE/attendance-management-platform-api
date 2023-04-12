@@ -37,6 +37,15 @@ export default createStore({
       state.token = "";
       localStorage.removeItem("token");
     },
+    setClockedIn(state, value) {
+      state.clockedIn = value;
+    },
+    setClockInTime(state, value) {
+      state.clockInTime = value;
+    },
+    setClockOutTime(state, value) {
+      state.clockOutTime = value;
+    },
   },
   actions: {
     async fetchCurrentUser({ commit }) {

@@ -29,3 +29,18 @@ export const Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 3000,
 });
+
+export const storeCheck = (storeValue, storeState) => {
+  let initialValue = null;
+  if (storeValue && storeValue !== null) {
+    try {
+      initialValue = JSON.parse(storeValue);
+    } catch (error) {
+      console.error(error);
+      initialValue = storeState;
+    }
+  } else {
+    initialValue = storeState;
+  }
+  return initialValue;
+};
