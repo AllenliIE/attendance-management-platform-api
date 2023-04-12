@@ -11,4 +11,13 @@ export default {
       }
     );
   },
+  updateAttendance({ UserId, date, clockOut }) {
+    return apiHelper.put(
+      `/attendance/${UserId}`,
+      { UserId, date, clockOut },
+      {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      }
+    );
+  },
 };

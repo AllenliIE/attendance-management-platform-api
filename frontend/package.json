@@ -12,6 +12,8 @@
     "axios": "^0.19.2",
     "bootstrap": "^5.2.3",
     "core-js": "^3.8.3",
+    "dayjs": "^1.11.7",
+    "dayjs-plugin-utc": "^0.1.2",
     "jquery": "^3.6.0",
     "popper.js": "^1.16.1",
     "sweetalert2": "^9.8.2",
