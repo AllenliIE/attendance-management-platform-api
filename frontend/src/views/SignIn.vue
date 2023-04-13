@@ -114,8 +114,8 @@ export default {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
+        store.commit("setCurrentUser", data.data);
         router.push("/clocking");
-        store.commit("setCurrentUser", data.user);
         Toast.fire({
           icon: "success",
           title: "登入成功！",

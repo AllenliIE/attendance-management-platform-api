@@ -54,9 +54,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { useStore, mapState } from "vuex";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
 
 export default {
   computed: {
