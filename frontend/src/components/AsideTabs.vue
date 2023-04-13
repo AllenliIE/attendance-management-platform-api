@@ -41,7 +41,7 @@ export default {
       {
         id: uuidv4(),
         title: "QRCode",
-        path: "/clocking/qrcode",
+        path: "/clocking/qrcode/generator",
         fontawesome: "fa-solid fa-qrcode fa-3x",
       },
       {

@@ -3,7 +3,7 @@ import store from "./../store";
 import NotFound from "../views/NotFound";
 import SignIn from "../views/SignIn.vue";
 import ClockPage from "./../views/attendance/ClockPage.vue";
-import QRCodePage from "./../views/attendance/QRCodePage.vue";
+import QRCodePage from "../views/attendance/QRCodePage.vue";
 import GPSPage from "./../views/attendance/GPSPage.vue";
 import ProfilePage from "./../views/attendance/ProfilePage.vue";
 
@@ -29,8 +29,13 @@ const routes = [
     component: ClockPage,
   },
   {
-    path: "/clocking/qrcode",
-    name: "clocking-qrcodle",
+    path: "/clocking/qrcode/generator",
+    name: "clocking-generator",
+    component: QRCodePage,
+  },
+  {
+    path: "/clocking/qrcode/read",
+    name: "clocking-read",
     component: QRCodePage,
   },
   {
