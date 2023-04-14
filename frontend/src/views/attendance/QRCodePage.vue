@@ -9,8 +9,11 @@
         <AppSpinner v-if="isLoading" />
         <template v-else>
           <h1>QRCode Page</h1>
-          <a href="#/clocking/qrcode/generator">QR Generator</a> |
-          <a href="#/clocking/qrcode/read">QR Reader</a> |
+          <!-- v-if="currentUser.role === 'admin' -->
+          <div>
+            <a href="#/clocking/qrcode/generator">QR Generator</a> |
+            <a href="#/clocking/qrcode/read">QR Reader</a>
+          </div>
           <component :is="currentView" />
         </template>
       </div>
@@ -19,11 +22,12 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
 import AsideTabs from "./../../components/AsideTabs";
 import AppSpinner from "./../../components/AppSpinner";
 import QRGenerator from "./../../components/QRGenerator.vue";
 import QRReader from "./../../components/QRReader.vue";
+import { computed, ref } from "vue";
+import { mapState, useStore } from "vuex";
 
 export default {
   components: {
@@ -31,6 +35,16 @@ export default {
     AppSpinner,
   },
   setup() {
+    const store = useStore();
+    const storeState = mapState(["currentUser"]);
+    const resultStoreState = {};
+    Object.keys(storeState).map((item) => {
+      const resFuc = storeState[item];
+      resultStoreState[item] = computed(resFuc.bind({ $store: store }));
+    });
+
+    const { currentUser } = { ...resultStoreState };
+
     const isLoading = ref(false);
 
     isLoading.value = true;
@@ -51,7 +65,7 @@ export default {
 
     isLoading.value = false;
 
-    return { currentView, isLoading };
+    return { currentView, isLoading, currentUser };
   },
 };
 </script>
