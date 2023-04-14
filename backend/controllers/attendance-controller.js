@@ -59,9 +59,6 @@ const attendanceController = {
       if (!data)
         return res.json({ status: "error", message: "今天還未打卡上班！" });
 
-      if (data.clockOut)
-        return res.json({ status: "error", message: "今天已經打卡下班了！" });
-
       const clockIn = new Date(data.clockIn);
       const elapsedTime = Math.floor((now - clockIn) / 1000 / 60);
       await Attendance.update(
@@ -74,6 +71,9 @@ const attendanceController = {
           where: { date: date, UserId: req.body.UserId },
         }
       );
+      if (data.clockOut)
+        return res.json({ status: "success", message: "今天已經打卡下班了！" });
+
       return res.json({
         status: "success",
         message: "打卡下班成功！",
