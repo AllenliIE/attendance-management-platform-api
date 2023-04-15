@@ -10,14 +10,14 @@
         <template v-else>
           <h1>Clocking Page</h1>
           <h3 class="my-3">現在時間：{{ currentTime }}</h3>
-          <div class="my-3">
+          <div class="my-3 d-grid gap-2 col-4 mx-auto">
             <button
               v-if="!clockedIn"
               :disabled="isProcessing"
               @click="clockIn"
               class="btn btn-danger btn-circle"
             >
-              <p class="mb-0">打卡上班</p>
+              <h3 class="mb-0">打卡上班</h3>
             </button>
             <button
               v-else
@@ -25,12 +25,29 @@
               @click="clockOut"
               class="btn btn-success btn-circle"
             >
-              <p class="mb-0">打卡下班</p>
+              <h3 class="mb-0">打卡下班</h3>
             </button>
           </div>
-          <div class="my-3">
-            <p v-if="clockInTime">上班時間：{{ clockInTime }}</p>
-            <p v-if="clockOutTime">下班時間：{{ clockOutTime }}</p>
+          <div
+            class="my-3 card d-flex justify-content-between align-items-center"
+            style="border: none; font-size: 24px"
+          >
+            <ul class="list-group">
+              <li class="list-group-item">
+                上班時間：
+                <span v-if="clockInTime" class="badge bg-primary rounded-pill">
+                  {{ clockInTime }}
+                </span>
+                <span v-else class="badge bg-secondary rounded-pill">-</span>
+              </li>
+              <li class="list-group-item">
+                下班時間：
+                <span v-if="clockOutTime" class="badge bg-primary rounded-pill">
+                  {{ clockOutTime }}
+                </span>
+                <span v-else class="badge bg-secondary rounded-pill">-</span>
+              </li>
+            </ul>
           </div>
         </template>
       </div>
@@ -61,7 +78,7 @@ export default {
 
     const currentTime = ref("");
     const date = ref(dayjs().format("YYYY-MM-DD"));
-    const dayChangeTime = ref("");
+    const dayChangeTimeValue = localStorage.getItem("dayChangeTime");
     const clockedInValue = localStorage.getItem("clockedIn");
     const clockInTimeValue = localStorage.getItem("clockInTime");
     const clockOutTimeValue = localStorage.getItem("clockOutTime");
@@ -69,6 +86,7 @@ export default {
     const clockedInCheck = storeCheck(clockedInValue, store.state.clockedIn);
     const clockInTime = ref(clockInTimeValue);
     const clockOutTime = ref(clockOutTimeValue);
+    const dayChangeTime = ref(dayChangeTimeValue);
 
     const isLoading = ref(false);
     const isProcessing = ref(false);
@@ -97,23 +115,12 @@ export default {
           clockIn: clockInTime.value,
         });
 
-        if (data.status === "error") {
-          Toast.fire({
-            icon: "warning",
-            title: `無法打卡 - ${data.message}`,
-          });
-        } else if (data.status === "success") {
-          Toast.fire({
-            icon: "success",
-            title: `打卡成功 - ${data.message}`,
-          });
-        }
+        await showMessage(data.message, data.status);
+        isLoading.value = false;
         isProcessing.value = false;
       } catch (error) {
-        Toast.fire({
-          icon: "warning",
-          title: `無法打卡 - ${error.message}`,
-        });
+        isLoading.value = false;
+        await showMessage(error.message, "error");
       } finally {
         isLoading.value = false;
         isProcessing.value = false;
@@ -141,28 +148,29 @@ export default {
           clockOut: clockOutTime.value,
         });
 
-        if (data.status === "error") {
-          Toast.fire({
-            icon: "warning",
-            title: `無法打卡 - ${data.message}`,
-          });
-        } else if (data.status === "success") {
-          Toast.fire({
-            icon: "success",
-            title: `打卡成功 - ${data.message}`,
-          });
-        }
+        await showMessage(data.message, data.status);
         isLoading.value = false;
         isProcessing.value = false;
       } catch (error) {
         isLoading.value = false;
-        Toast.fire({
-          icon: "warning",
-          title: `無法打卡 - ${error.message}`,
-        });
+        await showMessage(error.message, "error");
       } finally {
         isLoading.value = false;
         isProcessing.value = false;
+      }
+    }
+
+    async function showMessage(message, status) {
+      if (status === "error") {
+        Toast.fire({
+          icon: "warning",
+          title: `無法打卡 - ${message}`,
+        });
+      } else if (status === "success") {
+        Toast.fire({
+          icon: "success",
+          title: `打卡成功 - ${message}`,
+        });
       }
     }
 
