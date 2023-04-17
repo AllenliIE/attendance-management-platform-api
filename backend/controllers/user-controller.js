@@ -33,7 +33,7 @@ const userController = {
           status: "success",
           message: "登入成功！",
           token,
-          data: {
+          user: {
             id: user.id,
             name: user.name,
             account: user.account,
