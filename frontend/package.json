@@ -16,6 +16,7 @@
     "dayjs": "^1.11.7",
     "dayjs-plugin-utc": "^0.1.2",
     "jquery": "^3.6.0",
+    "leaflet": "^1.9.3",
     "popper.js": "^1.16.1",
     "qrcode.vue": "^3.3.4",
     "sweetalert2": "^9.8.2",
