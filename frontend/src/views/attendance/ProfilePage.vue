@@ -1,7 +1,7 @@
 <template>
   <div class="row vh-100" style="margin-top: 110px">
     <AsideTabs class="h-100" />
-    <h1 class="col-xl-10 mt-5">Profile Page</h1>
+    <h1 class="col-xl-10 col-md-10 col-10 mt-5">Profile Page</h1>
   </div>
 </template>
 

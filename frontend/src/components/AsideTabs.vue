@@ -1,5 +1,8 @@
 <template>
-  <aside class="col-xl-2 text-center" style="background-color: #14597f">
+  <aside
+    class="col-xl-2 col-md-2 col-2 text-center"
+    style="background-color: #14597f"
+  >
     <ul class="navbar-nav p-0">
       <li
         v-for="tab in tabs"

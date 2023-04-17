@@ -3,7 +3,10 @@
     class="container card d-flex justify-content-center shadow p-3 mb-5 bg-body rounded"
     style="height: 800px; margin-top: 200px"
   >
-    <form class="w-50 text-primary m-auto" @submit.prevent.stop="handleSubmit">
+    <form
+      class="w-50 col-md-8 text-primary m-auto"
+      @submit.prevent.stop="handleSubmit"
+    >
       <div class="d-flex justify-content-center text-center mb-4">
         <i class="fa-solid fa-industry fa-2xl m-3"></i>
         <p class="mb-3 font-weight-normal" style="font-size: 48px">
@@ -13,7 +16,7 @@
 
       <div
         class="form-label-group m-auto text-muted text-start mb-2"
-        style="width: 400px; font-size: 24px"
+        style="font-size: 24px"
       >
         <label for="account">
           <strong> Account </strong>
@@ -33,7 +36,7 @@
 
       <div
         class="form-label-group m-auto text-muted text-start mb-3"
-        style="width: 400px; font-size: 24px"
+        style="font-size: 24px"
       >
         <label for="password">
           <strong> Password </strong>
