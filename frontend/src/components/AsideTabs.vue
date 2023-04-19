@@ -31,9 +31,13 @@
 <script>
 import { v4 as uuidv4 } from "uuid";
 import { reactive } from "vue";
+import { useStore } from "vuex";
 
 export default {
   setup() {
+    const store = useStore();
+    const UserId = store.getters.userId;
+
     const tabs = reactive([
       {
         id: uuidv4(),
@@ -56,7 +60,7 @@ export default {
       {
         id: uuidv4(),
         title: "Profile",
-        path: "/clocking/profile",
+        path: `/clocking/user/${UserId}`,
         fontawesome: "fa-solid fa-address-card fa-3x",
       },
     ]);

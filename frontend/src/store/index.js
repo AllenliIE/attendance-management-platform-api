@@ -46,6 +46,12 @@ export default createStore({
     setClockOutTime(state, value) {
       state.clockOutTime = value;
     },
+    updateUserForm(state, currentUser) {
+      state.currentUser = {
+        ...state.currentUser,
+        ...currentUser,
+      };
+    },
   },
   actions: {
     async fetchCurrentUser({ commit }) {

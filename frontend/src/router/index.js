@@ -44,7 +44,12 @@ const routes = [
     component: GPSPage,
   },
   {
-    path: "/clocking/profile",
+    path: "/clocking/user/:id/edit",
+    name: "clocking-profile",
+    component: ProfilePage,
+  },
+  {
+    path: "/clocking/user/:id",
     name: "clocking-profile",
     component: ProfilePage,
   },

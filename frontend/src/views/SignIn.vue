@@ -112,7 +112,7 @@ export default {
           account: this.account,
           password: this.password,
         });
-        console.log(response);
+
         const { data } = response;
         if (data.status === "error") {
           throw new Error(data.message);
