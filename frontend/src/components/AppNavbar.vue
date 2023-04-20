@@ -32,15 +32,15 @@
             <!-- is user is admin -->
             <router-link
               v-if="currentUser.role === 'admin'"
-              to="#"
+              to="/admin"
               class="nav-item active text-muted m-3 text-decoration-none"
             >
-              <i class="fa-solid fa-robot fa-bounce fa-2xl"></i>
+              <i class="fa-solid fa-screwdriver-wrench fa-bounce fa-2xl"></i>
             </router-link>
 
             <!-- is user is login -->
             <router-link
-              to="#"
+              to=""
               class="nav-item active text-primary text-center m-3 text-decoration-none"
               style="font-size: 24px"
             >

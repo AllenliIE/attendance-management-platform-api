@@ -6,6 +6,19 @@ import ClockPage from "./../views/attendance/ClockPage.vue";
 import QRCodePage from "../views/attendance/QRCodePage.vue";
 import GPSPage from "./../views/attendance/GPSPage.vue";
 import ProfilePage from "./../views/attendance/ProfilePage.vue";
+import AdminPage from "./../views/admin/AdminPage.vue";
+import UsersPage from "./../views/admin/UsersPage.vue";
+import AbsentPage from "./../views/admin/AbsentPage.vue";
+
+const authorizeIsAdmin = (to, from, next) => {
+  const currentUser = store.state.currentUser;
+  if (currentUser && currentUser.role !== "admin") {
+    next("/not-found");
+    return;
+  }
+
+  next();
+};
 
 const routes = [
   {
@@ -52,6 +65,29 @@ const routes = [
     path: "/clocking/user/:id",
     name: "clocking-profile",
     component: ProfilePage,
+  },
+  {
+    path: "/admin",
+    exact: true,
+    redirect: "/admin/attendance",
+  },
+  {
+    path: "/admin/attendance",
+    name: "admin-attendance",
+    component: AdminPage,
+    beforeEnter: authorizeIsAdmin,
+  },
+  {
+    path: "/admin/attendance/users",
+    name: "admin-users",
+    component: UsersPage,
+    beforeEnter: authorizeIsAdmin,
+  },
+  {
+    path: "/admin/attendance/absent",
+    name: "admin-absent",
+    component: AbsentPage,
+    beforeEnter: authorizeIsAdmin,
   },
   {
     path: "/:pathMatch(.*)*",
