@@ -4,9 +4,23 @@ const passport = require("../config/passport");
 
 const userController = require("../controllers/user-controller");
 const attendanceController = require("../controllers/attendance-controller");
+const adminController = require("../controllers/admin-controller");
 
 const { apiErrorHandler } = require("../middleware/error-handler");
 const { authenticated, authenticatedAdmin } = require("../middleware/api-auth");
+
+router.get(
+  "/api/admin/attendance",
+  authenticated,
+  authenticatedAdmin,
+  adminController.getAttendance
+);
+router.put(
+  "/api/admin/attendance/:id",
+  authenticated,
+  authenticatedAdmin,
+  adminController.putAbsent
+);
 
 router.get(
   "/api/get_current_user",
