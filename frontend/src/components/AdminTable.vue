@@ -13,7 +13,7 @@
     </thead>
     <tbody>
       <tr v-for="attendance in attendances" :key="attendance.id">
-        <th scope="row">
+        <th>
           {{ attendance.id }}
         </th>
         <td>
@@ -58,6 +58,7 @@ import { useRouter } from "vue-router";
 dayjs.extend(utc, timezone);
 
 export default {
+  name: "AdminTable",
   setup() {
     const router = useRouter();
     const isProcessing = ref(false);
