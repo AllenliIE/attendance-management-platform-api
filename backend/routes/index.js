@@ -23,6 +23,19 @@ router.put(
 );
 
 router.get(
+  "/api/admin/attendance/users",
+  authenticated,
+  authenticatedAdmin,
+  adminController.getUsers
+);
+router.put(
+  "/api/admin/attendance/users/:id",
+  authenticated,
+  authenticatedAdmin,
+  adminController.unlockUser
+);
+
+router.get(
   "/api/get_current_user",
   authenticated,
   userController.getCurrentUser
