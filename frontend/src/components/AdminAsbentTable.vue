@@ -111,7 +111,7 @@ export default {
             title: data.message,
           });
         }
-        router.push("/admin").then(() => {
+        router.push("/admin/attendance/absent").then(() => {
           isProcessing.value = false;
           location.reload();
         });

@@ -69,10 +69,10 @@ const routes = [
   {
     path: "/admin",
     exact: true,
-    redirect: "/admin/attendance",
+    redirect: "/admin/attendance/dashboard",
   },
   {
-    path: "/admin/attendance",
+    path: "/admin/attendance/dashboard",
     name: "admin-attendance",
     component: AdminPage,
     beforeEnter: authorizeIsAdmin,

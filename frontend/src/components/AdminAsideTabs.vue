@@ -38,7 +38,7 @@ export default {
       {
         id: uuidv4(),
         title: "Administration",
-        path: "/admin/attendance",
+        path: "/admin/attendance/dashboard",
         fontawesome: "fa-solid fa-address-book fa-3x",
       },
       {
