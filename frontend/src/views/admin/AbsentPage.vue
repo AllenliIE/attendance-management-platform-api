@@ -9,6 +9,7 @@
         <AppSpinner v-if="isLoading" />
         <template v-else>
           <h1>Absent Page</h1>
+          <AdminAsbentTable />
         </template>
       </div>
     </div>
@@ -17,11 +18,13 @@
 
 <script>
 import AdminAsideTabs from "./../../components/AdminAsideTabs";
+import AdminAsbentTable from "./../../components/AdminAsbentTable";
 import AppSpinner from "./../../components/AppSpinner";
 
 export default {
   components: {
     AdminAsideTabs,
+    AdminAsbentTable,
     AppSpinner,
   },
 };

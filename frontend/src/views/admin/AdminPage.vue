@@ -9,7 +9,7 @@
         <AppSpinner v-if="isLoading" />
         <template v-else>
           <h1>Admin Page</h1>
-          <AdminTable />
+          <AdminDashboard />
         </template>
       </div>
     </div>
@@ -18,13 +18,13 @@
 
 <script>
 import AdminAsideTabs from "./../../components/AdminAsideTabs";
-import AdminTable from "./../../components/AdminTable";
+import AdminDashboard from "./../../components/AdminDashboard";
 import AppSpinner from "./../../components/AppSpinner";
 
 export default {
   components: {
     AdminAsideTabs,
-    AdminTable,
+    AdminDashboard,
     AppSpinner,
   },
 };
