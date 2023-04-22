@@ -1,7 +1,39 @@
-const { User, Attendance } = require("../models");
+const { User, Attendance, sequelize } = require("../models");
 const { Op } = require("sequelize");
 
 const adminController = {
+  getDashboard: async (req, res, next) => {
+    try {
+      const attendances = new Array(12).fill(0);
+      const absences = new Array(12).fill(0);
+
+      const results = await Attendance.findAll({
+        attributes: [
+          [sequelize.literal("MONTH(`date`)"), "month"],
+          [sequelize.fn("COUNT", sequelize.col("id")), "count"],
+          [sequelize.fn("SUM", sequelize.col("absent")), "absences"],
+        ],
+        where: {
+          absent: {
+            [Op.in]: [0, 1],
+          },
+        },
+        group: [sequelize.literal("MONTH(`date`)")],
+      });
+
+      results.forEach((result) => {
+        const month = result.dataValues.month - 1;
+        attendances[month] =
+          parseInt(result.dataValues.count) -
+          parseInt(result.dataValues.absences);
+        absences[month] = parseInt(result.dataValues.absences);
+      });
+
+      return res.json({ attendances, absences });
+    } catch (err) {
+      next(err);
+    }
+  },
   getAttendance: async (req, res, next) => {
     try {
       const attendance = await Attendance.findAll({

@@ -10,10 +10,10 @@ const { apiErrorHandler } = require("../middleware/error-handler");
 const { authenticated, authenticatedAdmin } = require("../middleware/api-auth");
 
 router.get(
-  "/api/admin/attendance",
+  "/api/admin/attendance/dashboard",
   authenticated,
   authenticatedAdmin,
-  adminController.getAttendance
+  adminController.getDashboard
 );
 router.put(
   "/api/admin/attendance/:id",
@@ -21,18 +21,23 @@ router.put(
   authenticatedAdmin,
   adminController.putAbsent
 );
-
 router.get(
-  "/api/admin/attendance/users",
+  "/api/admin/attendance",
   authenticated,
   authenticatedAdmin,
-  adminController.getUsers
+  adminController.getAttendance
 );
 router.put(
   "/api/admin/attendance/users/:id",
   authenticated,
   authenticatedAdmin,
   adminController.unlockUser
+);
+router.get(
+  "/api/admin/attendance/users",
+  authenticated,
+  authenticatedAdmin,
+  adminController.getUsers
 );
 
 router.get(
