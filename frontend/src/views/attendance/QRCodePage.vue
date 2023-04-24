@@ -16,8 +16,7 @@
               <strong> QRCode Page </strong>
             </p>
           </div>
-          <!-- v-if="currentUser.role === 'admin' -->
-          <div>
+          <div v-if="currentUser.role === 'admin'">
             <a href="#/clocking/qrcode/generator">QR Generator</a> |
             <a href="#/clocking/qrcode/read">QR Reader</a>
           </div>
