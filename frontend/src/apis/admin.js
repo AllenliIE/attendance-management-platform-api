@@ -5,6 +5,9 @@ export default {
     getAttendance() {
       return apiHelper.get("/admin/attendance");
     },
+    getDashboard() {
+      return apiHelper.get("/admin/attendance/dashboard");
+    },
   },
   users: {
     getUsers() {
