@@ -8,17 +8,21 @@
 </template>
 
 <script>
+import attendanceAPI from "./../apis/attendance";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import attendanceAPI from "./../apis/attendance";
+
 import { ref, reactive } from "vue";
 import { QrcodeStream } from "vue-qrcode-reader";
 import { useStore } from "vuex";
 import { Toast, storeCheck } from "./../utils/helpers";
+
 dayjs.extend(utc, timezone);
 
 export default {
+  name: "QRReader",
   components: {
     QrcodeStream,
   },

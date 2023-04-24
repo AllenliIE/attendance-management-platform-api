@@ -3,12 +3,19 @@
     <AsideTabs class="h-100" />
     <div class="col-xl-10 col-md-10 col-10 mt-5 text-center">
       <div
-        class="container card d-flex justify-content-center shadow p-3 mb-5 bg-body rounded"
-        style="height: 1000px"
+        class="container-field card d-flex justify-content-center shadow p-3 mb-5 bg-body rounded"
+        style="height: 1000px; margin-left: 55px; margin-right: 55px"
       >
         <AppSpinner v-if="isLoading" />
         <template v-else>
-          <h1>QRCode Page</h1>
+          <div
+            class="d-flex justify-content-center text-center text-primary mb-4"
+          >
+            <i class="fa-solid fa-qrcode fa-3x m-3"></i>
+            <p class="mb-3 font-weight-normal" style="font-size: 48px">
+              <strong> QRCode Page </strong>
+            </p>
+          </div>
           <!-- v-if="currentUser.role === 'admin' -->
           <div>
             <a href="#/clocking/qrcode/generator">QR Generator</a> |
@@ -26,10 +33,12 @@ import AsideTabs from "./../../components/AsideTabs";
 import AppSpinner from "./../../components/AppSpinner";
 import QRGenerator from "./../../components/QRGenerator.vue";
 import QRReader from "./../../components/QRReader.vue";
+
 import { computed, ref } from "vue";
 import { mapState, useStore } from "vuex";
 
 export default {
+  name: "QRCodePage",
   components: {
     AsideTabs,
     AppSpinner,
@@ -38,6 +47,9 @@ export default {
     const store = useStore();
     const storeState = mapState(["currentUser"]);
     const resultStoreState = {};
+
+    const isLoading = ref(true);
+
     Object.keys(storeState).map((item) => {
       const resFuc = storeState[item];
       resultStoreState[item] = computed(resFuc.bind({ $store: store }));
@@ -45,9 +57,6 @@ export default {
 
     const { currentUser } = { ...resultStoreState };
 
-    const isLoading = ref(false);
-
-    isLoading.value = true;
     const routes = {
       "/clocking/qrcode/generator": QRGenerator,
       "/clocking/qrcode/read": QRReader,

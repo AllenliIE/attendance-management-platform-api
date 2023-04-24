@@ -3,14 +3,18 @@
     <AdminAsideTabs class="h-100" />
     <div class="col-xl-10 col-md-10 col-10 mt-5 text-center">
       <div
-        class="container card d-flex justify-content-center shadow p-3 mb-5 bg-body rounded"
-        style="height: 1000px"
+        class="container-field card d-flex justify-content-center shadow p-3 mb-5 bg-body rounded"
+        style="height: 1000px; margin-left: 55px; margin-right: 55px"
       >
-        <AppSpinner v-if="isLoading" />
-        <template v-else>
-          <h1>Absent Page</h1>
-          <AdminAsbentTable />
-        </template>
+        <div
+          class="d-flex justify-content-center text-center text-primary mb-4"
+        >
+          <i class="fa-solid fa-list-check fa-3x m-3"></i>
+          <p class="mb-3 font-weight-normal" style="font-size: 48px">
+            <strong> Absent Page </strong>
+          </p>
+        </div>
+        <AdminAsbentTable />
       </div>
     </div>
   </div>
@@ -19,13 +23,11 @@
 <script>
 import AdminAsideTabs from "./../../components/AdminAsideTabs";
 import AdminAsbentTable from "./../../components/AdminAsbentTable";
-import AppSpinner from "./../../components/AppSpinner";
 
 export default {
   components: {
     AdminAsideTabs,
     AdminAsbentTable,
-    AppSpinner,
   },
 };
 </script>

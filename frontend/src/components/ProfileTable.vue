@@ -3,10 +3,9 @@
     <div class="d-flex justify-content-center text-center mb-4">
       <i class="fa-solid fa-address-card fa-3x m-3"></i>
       <p class="mb-3 font-weight-normal" style="font-size: 48px">
-        <strong> Profile Setting </strong>
+        <strong> Profile Page </strong>
       </p>
     </div>
-
     <div
       class="form-label-group m-auto text-muted text-start mb-2"
       style="width: 400px; font-size: 24px"
@@ -118,6 +117,7 @@
 
 <script>
 import usersAPI from "./../apis/users";
+
 import { Toast } from "./../utils/helpers";
 import { ref, reactive, computed, toRefs } from "vue";
 import { useRouter } from "vue-router";
@@ -130,18 +130,18 @@ export default {
     const store = useStore();
     const currentUser = computed(() => store.state.currentUser);
 
+    const isProcessing = ref(false);
+
     const userForm = reactive({
       ...toRefs(currentUser.value),
       password: "",
       passwordCheck: "",
     });
 
-    const isProcessing = ref(false);
-
     async function handleSubmit() {
-      try {
-        isProcessing.value = true;
+      isProcessing.value = true;
 
+      try {
         const data = await usersAPI.putProfile({
           UserId: store.getters.userId,
           formData: userForm,
@@ -155,16 +155,20 @@ export default {
             title: "更新成功！",
           });
         }
-        router.push({ path: `/clocking/user/${store.getters.userId}` });
-        isProcessing.value = false;
+
+        router.push(`/clocking/user/${store.getters.userId}`).then(() => {
+          isProcessing.value = false;
+          location.reload();
+        });
       } catch (error) {
-        isProcessing.value = false;
         Toast.fire({
           icon: "error",
           title: "無法更新使用者資料，請稍後再試！",
         });
+        isProcessing.value = false;
       }
     }
+
     return {
       userForm,
       isProcessing,

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoading">允許取得位置後，才能進行GPS打卡！</div>
+  <AppSpinner v-if="isLoading">允許取得位置後，才能進行GPS打卡！</AppSpinner>
   <div v-else class="my-3 d-grid gap-2 col-4 mx-auto">
     <button
       v-if="!clockedIn"
@@ -35,13 +35,17 @@
 
 <script>
 import attendanceAPI from "./../apis/attendance";
+import AppSpinner from "./../components/AppSpinner";
+
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { Toast, storeCheck } from "./../utils/helpers";
@@ -49,6 +53,10 @@ import { Toast, storeCheck } from "./../utils/helpers";
 dayjs.extend(utc, timezone);
 
 export default {
+  name: "GPSMap",
+  components: {
+    AppSpinner,
+  },
   setup() {
     const mapContainer = ref("map");
     const currentPosition = ref({ lat: "", long: "" });

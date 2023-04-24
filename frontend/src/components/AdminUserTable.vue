@@ -1,5 +1,6 @@
 <template>
-  <table class="table table-hover table-bordered text-center">
+  <AppSpinner v-if="isLoading" />
+  <table v-else class="table table-hover table-bordered text-center">
     <thead class="table-light">
       <tr class="table-info">
         <th scope="col">ID</th>
@@ -44,18 +45,27 @@
 
 <script>
 import adminAPI from "./../apis/admin";
+import AppSpinner from "./../components/AppSpinner";
+
 import { ref } from "vue";
-import { Toast } from "./../utils/helpers";
 import { useRouter } from "vue-router";
+import { Toast } from "./../utils/helpers";
 
 export default {
   name: "AdminUserTable",
+  components: {
+    AppSpinner,
+  },
   setup() {
     const router = useRouter();
-    const isProcessing = ref(false);
     const users = ref([]);
+    const isLoading = ref(false);
+    const isProcessing = ref(false);
 
     async function fetchUsers() {
+      isLoading.value = true;
+      isProcessing.value = true;
+
       try {
         const { data } = await adminAPI.users.getUsers();
         if (data.status === "error") {
@@ -63,19 +73,23 @@ export default {
         }
 
         users.value = data;
+        isLoading.value = false;
         isProcessing.value = false;
       } catch (error) {
         Toast.fire({
           icon: "error",
           title: "無法取得人員清單！",
         });
+        isLoading.value = false;
         isProcessing.value = false;
       }
     }
 
     async function putIsLocked(userId) {
+      isLoading.value = true;
+      isProcessing.value = true;
+
       try {
-        isProcessing.value = true;
         const { data } = await adminAPI.users.putIsLocked(userId.id);
         if (data.status === "error") {
           throw new Error(data.message);
@@ -86,6 +100,7 @@ export default {
           });
         }
         router.push("/admin/attendance/users").then(() => {
+          isLoading.value = false;
           isProcessing.value = false;
           location.reload();
         });
@@ -94,6 +109,7 @@ export default {
           icon: "error",
           title: error.response.data.message,
         });
+        isLoading.value = false;
         isProcessing.value = false;
       }
     }
@@ -101,6 +117,7 @@ export default {
     return {
       users,
       putIsLocked,
+      isLoading,
       isProcessing,
     };
   },

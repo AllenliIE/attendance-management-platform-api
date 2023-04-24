@@ -1,5 +1,6 @@
 <template>
-  <div class="container d-flex justify-content-around mb-3">
+  <AppSpinner v-if="isLoading" />
+  <div v-else class="container d-flex justify-content-around mb-3">
     <div class="col-md-6">
       <h2 class="text-center mb-3">Attendance Trend 2023</h2>
       <canvas ref="barChart" style="width: 100vh; height: 50vh"></canvas>
@@ -10,26 +11,34 @@
 <script>
 import Chart from "chart.js/auto";
 import adminAPI from "./../apis/admin";
+import AppSpinner from "./../components/AppSpinner";
+
 import { ref, onMounted } from "vue";
 import { Toast } from "./../utils/helpers";
 
 export default {
   name: "AdminDashboard",
+  components: {
+    AppSpinner,
+  },
   setup() {
     const barChart = ref(null);
     const attendances = ref([]);
     const absences = ref([]);
+    const isLoading = ref(true);
 
     async function updateChartData() {
       try {
         const { data } = await adminAPI.attendance.getDashboard();
         attendances.value = data.attendances;
         absences.value = data.absences;
+        isLoading.value = false;
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "無法取得人員清單！",
+          title: "無法取得打卡趨勢圖！",
         });
+        isLoading.value = false;
       }
     }
 
@@ -77,7 +86,7 @@ export default {
         options: {},
       });
     });
-    return { barChart };
+    return { barChart, isLoading };
   },
 };
 </script>
