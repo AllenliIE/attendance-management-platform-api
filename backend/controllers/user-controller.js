@@ -11,18 +11,34 @@ const userController = {
       if (!account || !password)
         return res.json({ status: "error", message: "請確實填寫欄位！" });
       if (!user)
-        return res
-          .status(401)
-          .json({ status: "error", message: "該帳號不存在！" });
-      if (!bcrypt.compareSync(password, user.password)) {
-        return res
-          .status(401)
-          .json({ status: "error", message: "請輸入正確的帳號密碼！" });
-      }
+        return res.json({ status: "error", message: "該帳號不存在！" });
       if (user.wrongTimes >= 5 || user.isLocked) {
-        return res.status(401).json({
+        return res.json({
           status: "error",
           message: "此帳戶已鎖定，請與管理員尋求協助！",
+        });
+      } else if (!bcrypt.compareSync(password, user.password)) {
+        User.increment("wrongTimes", {
+          by: 1,
+          where: { id: user.id },
+        });
+        if (user.wrongTimes === 4) {
+          User.update(
+            { isLocked: true },
+            {
+              where: {
+                id: user.id,
+              },
+            }
+          );
+          return res.json({
+            status: "error",
+            message: "因為密碼錯誤已達五次，帳號已被鎖定！",
+          });
+        }
+        return res.json({
+          status: "error",
+          message: "請確認是否輸入正確的帳號密碼！",
         });
       } else {
         const payload = { id: user.id };
