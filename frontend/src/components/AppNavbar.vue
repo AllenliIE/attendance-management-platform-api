@@ -74,6 +74,12 @@ export default {
 
     function logout() {
       store.commit("revokeAuthentication");
+      // Clean up localStorage
+      localStorage.removeItem("clockedIn");
+      localStorage.removeItem("clockInTime");
+      localStorage.removeItem("clockOutTime");
+      localStorage.removeItem("dayChangeTime");
+      localStorage.removeItem("date");
       router.push("/signin");
     }
     return { logout };
