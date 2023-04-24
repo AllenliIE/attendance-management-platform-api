@@ -2,7 +2,7 @@
   <AppSpinner v-if="isLoading" />
   <table v-else class="table table-hover table-bordered text-center">
     <thead class="table-light">
-      <tr class="table-info">
+      <tr class="table-info" style="font-size: 24px">
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Email</th>
@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="user in users" :key="user.id">
+      <tr v-for="user in users" :key="user.id" style="font-size: 20px">
         <th scope="row">
           {{ user.id }}
         </th>

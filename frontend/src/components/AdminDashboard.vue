@@ -3,7 +3,10 @@
   <div v-else class="container d-flex justify-content-around mb-3">
     <div class="col-md-6">
       <h2 class="text-center mb-3">Attendance Trend 2023</h2>
-      <canvas ref="barChart" style="width: 100vh; height: 50vh"></canvas>
+      <canvas
+        ref="barChart"
+        style="margin-top: 100px; transform: scale(1.5)"
+      ></canvas>
     </div>
   </div>
 </template>

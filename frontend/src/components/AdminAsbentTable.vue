@@ -2,7 +2,7 @@
   <AppSpinner v-if="isLoading" />
   <table v-else class="table table-hover table-bordered text-center">
     <thead class="table-light">
-      <tr class="table-primary">
+      <tr class="table-primary" style="font-size: 24px">
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Date</th>
@@ -13,7 +13,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="attendance in attendances" :key="attendance.id">
+      <tr
+        v-for="attendance in attendances"
+        :key="attendance.id"
+        style="font-size: 20px"
+      >
         <th>
           {{ attendance.id }}
         </th>

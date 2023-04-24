@@ -8,9 +8,7 @@
       >
         <AppSpinner v-if="isLoading" />
         <template v-else>
-          <div
-            class="d-flex justify-content-center text-center text-primary mb-4"
-          >
+          <div class="d-flex justify-content-center text-center text-primary">
             <i class="fa-solid fa-chart-column fa-3x m-3"></i>
             <p class="mb-3 font-weight-normal" style="font-size: 48px">
               <strong> Admin Page </strong>
