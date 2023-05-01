@@ -18,9 +18,9 @@
         :key="attendance.id"
         style="font-size: 20px"
       >
-        <th>
+        <td>
           {{ attendance.id }}
-        </th>
+        </td>
         <td>
           {{ attendance.User.name }}
         </td>

@@ -68,7 +68,6 @@ CREATE DATABASE attendance_management_platform_api_workspace CHARACTER SET utf8m
 ```
 $ cd backend
 $ npm install
-$ npm nodemon
 $ npx sequelize db:migrate
 $ npx sequelize db:seed:all
 $ npm run dev
