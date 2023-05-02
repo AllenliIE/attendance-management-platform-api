@@ -1,5 +1,4 @@
 const { Attendance } = require("../models");
-const dayjs = require("dayjs");
 
 const attendanceController = {
   postAttendance: async (req, res, next) => {
@@ -60,7 +59,7 @@ const attendanceController = {
         return res.json({ status: "error", message: "今天還未打卡上班！" });
 
       const clockIn = new Date(data.clockIn);
-      const elapsedTime = Math.floor((now - clockIn) / 1000 / 60);
+      const elapsedTime = Math.floor(now - clockIn);
       await Attendance.update(
         {
           clockOut: clockOut,

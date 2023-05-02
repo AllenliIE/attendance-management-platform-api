@@ -8,6 +8,7 @@
         <th scope="col">Date</th>
         <th scope="col">ClockInTime</th>
         <th scope="col">ClockOutTime</th>
+        <th scope="col">ElapsedTime(hr)</th>
         <th scope="col">Absent</th>
         <th scope="col">Button</th>
       </tr>
@@ -32,6 +33,9 @@
         </td>
         <td>
           {{ attendance.clockOut }}
+        </td>
+        <td>
+          {{ attendance.elapsedTime }}
         </td>
         <td>
           {{ attendance.absent ? "Yes" : "No" }}
@@ -93,8 +97,12 @@ export default {
           data[i].clockOut = dayjs(data[i].clockOut).format(
             "YYYY-MM-DD HH:mm:ss"
           );
+          data[i].elapsedTime = data[i].elapsedTime
+            ? dayjs.utc(data[i].elapsedTime).format("HH:mm:ss")
+            : null;
           if (data[i].clockOut === "Invalid Date") {
             data[i].clockOut = "-";
+            data[i].elapsedTime = "-";
           }
         }
 

@@ -11,11 +11,13 @@ module.exports = {
 
     const attendanceSeed = users.map((user, i) => {
       const clockIn = new Date(
-        new Date().getTime() - Math.floor(Math.random() * 600000)
+        new Date().getTime() - Math.floor(Math.random() * 18000000) //n * 60 * 60 * 1000
       );
       const clockOut =
         Math.random() >= 0.2
-          ? new Date(new Date().getTime() + Math.floor(Math.random() * 600000))
+          ? new Date(
+              new Date().getTime() + Math.floor(Math.random() * 18000000) //n * 60 * 60 * 1000
+            )
           : null;
       const elapsedTime = clockOut
         ? clockOut.getTime() - clockIn.getTime()
