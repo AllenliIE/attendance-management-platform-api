@@ -1,36 +1,38 @@
 <template>
-  <AppSpinner v-if="isLoading">允許取得位置後，才能進行GPS打卡！</AppSpinner>
-  <div v-else class="my-3 d-grid gap-2 col-4 mx-auto">
-    <button
-      v-if="!clockedIn"
-      :disabled="!withinRange"
-      @click="clockIn"
-      class="btn btn-danger btn-circle"
-    >
-      <h3 class="mb-0">打卡上班</h3>
-    </button>
-    <button
-      v-else-if="clockedIn"
-      :disabled="!withinRange"
-      @click="clockOut"
-      class="btn btn-success btn-circle"
-    >
-      <h3 class="mb-0">打卡下班</h3>
-    </button>
-    <div
-      class="my-3 card d-flex justify-content-between align-items-center"
-      style="border: none"
-    >
-      <h3 class="text-primary">目前距離公司還有{{ distance }}公尺。</h3>
-      <h3 v-if="!withinRange" class="text-danger">超出範圍，無法打卡！</h3>
+  <div>
+    <AppSpinner v-if="isLoading">允許取得位置後，才能進行GPS打卡！</AppSpinner>
+    <div v-else class="my-3 d-grid gap-2 col-4 mx-auto">
+      <button
+        v-if="!clockedIn"
+        :disabled="!withinRange"
+        @click="clockIn"
+        class="btn btn-danger btn-circle"
+      >
+        <h3 class="mb-0">打卡上班</h3>
+      </button>
+      <button
+        v-else-if="clockedIn"
+        :disabled="!withinRange"
+        @click="clockOut"
+        class="btn btn-success btn-circle"
+      >
+        <h3 class="mb-0">打卡下班</h3>
+      </button>
+      <div
+        class="my-3 card d-flex justify-content-between align-items-center"
+        style="border: none"
+      >
+        <h3 class="text-primary">目前距離公司還有{{ distance }}公尺。</h3>
+        <h3 v-if="!withinRange" class="text-danger">超出範圍，無法打卡！</h3>
+      </div>
     </div>
+    <div
+      id="map"
+      ref="mapContainer"
+      class="m-auto"
+      style="width: 50vh; height: 50vh"
+    ></div>
   </div>
-  <div
-    id="map"
-    ref="mapContainer"
-    class="m-auto"
-    style="width: 50vh; height: 50vh"
-  ></div>
 </template>
 
 <script>
@@ -61,20 +63,29 @@ export default {
     const mapContainer = ref("map");
     const currentPosition = ref({ lat: "", long: "" });
     const companyPosition = {
-      lat: 25.064919759715465,
-      long: 121.61412534579291,
+      lat: 25.04211400258323,
+      long: 121.5329032921531,
     };
+
     const distance = ref("?");
     const withinRange = ref(false);
     const isLoading = ref(true);
 
     onMounted(async () => {
       await new Promise((resolve) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          currentPosition.value.lat = position.coords.latitude;
-          currentPosition.value.long = position.coords.longitude;
-          resolve();
-        });
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            currentPosition.value.lat = position.coords.latitude;
+            currentPosition.value.long = position.coords.longitude;
+            resolve();
+          },
+          (error) => {
+            console.error(error);
+          },
+          {
+            enableHighAccuracy: true, // 設定高精準度
+          }
+        );
       });
 
       const map = L.map(mapContainer.value, {
