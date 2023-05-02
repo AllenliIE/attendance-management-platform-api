@@ -119,7 +119,7 @@
 import usersAPI from "./../apis/users";
 
 import { Toast } from "./../utils/helpers";
-import { ref, reactive, computed, toRefs } from "vue";
+import { ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 
@@ -128,15 +128,26 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    const currentUser = computed(() => store.state.currentUser);
 
     const isProcessing = ref(false);
 
     const userForm = reactive({
-      ...toRefs(currentUser.value),
+      name: "",
+      email: "",
+      account: "",
       password: "",
       passwordCheck: "",
     });
+
+    async function getCurrentUser() {
+      const userId = store.getters.userId;
+      const data = await usersAPI.getCurrentUser(userId);
+
+      userForm.name = data.data.name;
+      userForm.email = data.data.email;
+      userForm.account = data.data.account;
+    }
+    getCurrentUser();
 
     async function handleSubmit() {
       isProcessing.value = true;

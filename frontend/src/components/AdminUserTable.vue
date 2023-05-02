@@ -13,9 +13,9 @@
     </thead>
     <tbody>
       <tr v-for="user in users" :key="user.id" style="font-size: 20px">
-        <th scope="row">
+        <td scope="row">
           {{ user.id }}
-        </th>
+        </td>
         <td>
           {{ user.name }}
         </td>
