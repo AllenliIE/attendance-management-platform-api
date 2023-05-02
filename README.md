@@ -6,6 +6,8 @@
 
 # 功能介紹
 
+![attendance-rqcode](backend/public/image/attendance-rqcode.png)
+
 **註冊功能**
 
 - 系統提供註冊登入功能。
@@ -18,14 +20,20 @@
 - 使用者直接從資料庫進行初始化。
 - 至少提供 5 個以上的一般使用者與 1 個管理者。
 
-| Name  | Email             | password |
-| ----- | ----------------- | -------- |
-| admin | admin@example.com | 12345678 |
-| user1 | user1@example.com | 12345678 |
-| user2 | user2@example.com | 12345678 |
-| user3 | user3@example.com | 12345678 |
-| user4 | user4@example.com | 12345678 |
-| user5 | user5@example.com | 12345678 |
+| Name    | Email               | password   |
+| ------- | ------------------- | ---------- |
+| admin   | admin@example.com   | 12345678   |
+| user1   | user1@example.com   | 12345678   |
+| user2   | user2@example.com   | 12345678   |
+| user3   | user3@example.com   | 12345678   |
+| user4   | user4@example.com   | 12345678   |
+| user5   | user5@example.com   | 12345678   |
+| user6   | user6@example.com   | 12345678   |
+| user7   | user7@example.com   | 12345678   |
+| user8   | user8@example.com   | 12345678   |
+| user9   | user9@example.com   | 12345678   |
+| user10  | user10@example.com  | 12345678   |
+| ------- | ------------------- | ---------- |
 
 **互動功能**
 
@@ -80,6 +88,7 @@ $ npm run dev
 ```
 $ cd frontend
 $ npm install
+$ npm install --save-exact vue-qrcode-reader@3.1.0-vue3-compatibility.2
 $ npm run serve
 
 //Starting development server...
