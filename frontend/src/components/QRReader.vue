@@ -41,13 +41,14 @@ export default {
     let errorText = ref("");
 
     const state = reactive({ data: null, hasScanned: false });
-    const UserId = store.getters.userId;
 
     const handleAttendance = async (object) => {
       try {
         const clockIn = dayjs.utc().local().format("YYYY-MM-DD HH:mm:ss");
         const clockOut = dayjs.utc().local().format("YYYY-MM-DD HH:mm:ss");
         const date = object.date;
+        const UserId = object.UserId;
+
         dayChangeTime.value = dayjs(date)
           .add(1, "day")
           .format("YYYY-MM-DD 05:00:00");
@@ -100,12 +101,7 @@ export default {
     const onDecode = (data) => {
       state.data = data;
       const object = JSON.parse(atob(decodeURIComponent(data)));
-
-      if (!state.hasScanned && !clockedIn.value) {
-        handleAttendance(object);
-      } else {
-        handleAttendance(object);
-      }
+      handleAttendance(object);
     };
 
     const onInit = async (promise) => {
