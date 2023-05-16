@@ -238,12 +238,12 @@ export default {
       if (status === "error") {
         Toast.fire({
           icon: "warning",
-          title: `無法打卡 - ${message}`,
+          title: message,
         });
       } else if (status === "success") {
         Toast.fire({
           icon: "success",
-          title: `打卡成功 - ${message}`,
+          title: message,
         });
       }
     }

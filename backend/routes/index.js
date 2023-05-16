@@ -51,12 +51,16 @@ router.put(
   userController.putProfile
 );
 
+router.get(
+  "/api/attendance",
+  authenticated,
+  attendanceController.getAttendance
+);
 router.post(
   "/api/attendance",
   authenticated,
   attendanceController.postAttendance
 );
-
 router.put(
   "/api/attendance/:id",
   authenticated,

@@ -1,6 +1,52 @@
 const { Attendance } = require("../models");
+const { Op } = require("sequelize");
 
 const attendanceController = {
+  getAttendance: async (req, res, next) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    try {
+      const data = await Attendance.findOne({
+        where: {
+          date: {
+            [Op.between]: [today, tomorrow],
+          },
+          UserId: req.user.id,
+        },
+      });
+
+      if (!data)
+        return res.json({ status: "error", message: "今日尚未執行考勤作業！" });
+
+      const formatDateTime = (dateTime) => {
+        const year = dateTime.getFullYear();
+        const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+        const day = String(dateTime.getDate()).padStart(2, "0");
+        const hours = String(dateTime.getHours()).padStart(2, "0");
+        const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+        const seconds = String(dateTime.getSeconds()).padStart(2, "0");
+
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      };
+
+      const formattedClockIn = formatDateTime(data.clockIn);
+      const formattedClockOut = formatDateTime(data.clockOut);
+
+      return res.json({
+        status: "success",
+        message: "歡迎來到考勤管理系統！",
+        data: {
+          clockIn: formattedClockIn,
+          clockOut: formattedClockOut,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  },
   postAttendance: async (req, res, next) => {
     const { date, clockIn } = req.body;
     if (!date || !clockIn)

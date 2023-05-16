@@ -89,17 +89,36 @@ export default {
     const date = ref(dayjs().format("YYYY-MM-DD"));
     const dayChangeTimeValue = localStorage.getItem("dayChangeTime");
     const clockedInValue = localStorage.getItem("clockedIn");
-    const clockInTimeValue = localStorage.getItem("clockInTime");
-    const clockOutTimeValue = localStorage.getItem("clockOutTime");
 
     const clockedInCheck = storeCheck(clockedInValue, store.state.clockedIn);
-    const clockInTime = ref(clockInTimeValue);
-    const clockOutTime = ref(clockOutTimeValue);
+    const clockInTime = ref("");
+    const clockOutTime = ref("");
     const dayChangeTime = ref(dayChangeTimeValue);
 
     const isLoading = ref(false);
     const isProcessing = ref(false);
     const clockedIn = ref(clockedInCheck);
+
+    async function getClocking() {
+      try {
+        const { data } = await attendanceAPI.getAttendance({
+          UserId: store.getters.userId,
+          date: date.value,
+        });
+
+        if (data.data) {
+          clockInTime.value = data.data.clockIn;
+          clockOutTime.value = data.data.clockOut;
+          clockedIn.value = true;
+          await showMessage(data.message, data.status);
+        } else {
+          clockedIn.value = false;
+          await showMessage("今日尚未執行考勤作業！", "error");
+        }
+      } catch (error) {
+        await showMessage(error.message, "error");
+      }
+    }
 
     async function clockIn() {
       isLoading.value = true;
@@ -125,10 +144,7 @@ export default {
         });
 
         await showMessage(data.message, data.status);
-        isLoading.value = false;
-        isProcessing.value = false;
       } catch (error) {
-        isLoading.value = false;
         await showMessage(error.message, "error");
       } finally {
         isLoading.value = false;
@@ -158,10 +174,7 @@ export default {
         });
 
         await showMessage(data.message, data.status);
-        isLoading.value = false;
-        isProcessing.value = false;
       } catch (error) {
-        isLoading.value = false;
         await showMessage(error.message, "error");
       } finally {
         isLoading.value = false;
@@ -173,12 +186,12 @@ export default {
       if (status === "error") {
         Toast.fire({
           icon: "warning",
-          title: `無法打卡 - ${message}`,
+          title: message,
         });
       } else if (status === "success") {
         Toast.fire({
           icon: "success",
-          title: `打卡成功 - ${message}`,
+          title: message,
         });
       }
     }
@@ -198,6 +211,8 @@ export default {
         localStorage.removeItem("date");
       }
     }, 1000);
+
+    getClocking();
 
     return {
       currentTime,
