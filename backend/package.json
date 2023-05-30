@@ -32,5 +32,8 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1"
   },
-  "description": ""
+  "description": "",
+  "engines": {
+    "node": ">=14.21.3 < 15"
+  }
 }
