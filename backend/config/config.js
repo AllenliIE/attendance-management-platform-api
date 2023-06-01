@@ -17,11 +17,6 @@ module.exports = {
     timezone: process.env.TEST_DB_timezone,
   },
   production: {
-    username: process.env.PRO_DB_username,
-    password: process.env.PRO_DB_password,
-    database: process.env.PRO_DB_database,
-    host: process.env.PRO_DB_host,
-    dialect: process.env.PRO_DB_dialect,
-    timezone: process.env.PRO_DB_timezone,
+    use_env_variable: process.env.use_env_variable,
   },
 };
