@@ -17,6 +17,6 @@ module.exports = {
     timezone: process.env.TEST_DB_timezone,
   },
   production: {
-    use_env_variable: process.env.use_env_variable,
+    use_env_variable: "CLEARDB_DATABASE_URL",
   },
 };

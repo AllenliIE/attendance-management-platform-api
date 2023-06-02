@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const baseURL = "https://attendance-management-platform.herokuapp.com";
+const baseURL = "https://attendance-management-platform.herokuapp.com/api";
 
 const axiosInstance = axios.create({
   baseURL,
